@@ -1,0 +1,213 @@
+.mt-6 {
+	margin-top: 4rem!important;
+}
+.mt-7 {
+	margin-top: 5rem!important;
+}
+.mt-8 {
+	margin-top: 6rem!important;
+}
+.mt-9 {
+	margin-top: 7rem!important;
+}
+.mt-10 {
+	margin-top: 8rem!important;
+}
+.py-6 {
+	padding-bottom: 4rem!important;
+	padding-top: 4rem!important;
+}
+.py-7 {
+	padding-bottom: 5rem!important;
+	padding-top: 5rem!important;
+}
+.py-8 {
+	padding-bottom: 6rem!important;
+	padding-top: 6rem!important;
+}
+.e-m-0{
+	margin: 0 !important;
+}
+.e-m-auto{
+	margin: auto !important;
+}
+.e-p-0{
+	padding: 0 !important;
+}
+
+.e-p-1{
+	padding: 6px 2px !important;
+}
+
+.e-p-2{
+	padding: 0px 3px !important;
+}
+
+.e-l-0 {
+	padding-left:0px !important;
+}
+.e-r-0 {
+	padding-right:0px !important;
+}
+.m-l-0 {
+	margin-left:0px !important;
+}
+.m-r-0 {
+	margin-right:0px !important;
+}
+.pointer {
+	cursor:pointer;
+}
+/* ±Û¾¾Å©±â */
+.font-size-06 {	font-size:0.6rem; }
+.font-size-07 {	font-size:0.7rem; }
+.font-size-08 {	font-size:0.8rem; }
+.font-size-09 {	font-size:0.9rem; }
+.font-size-11 {	font-size:1.1rem; }
+.font-size-12 {	font-size:1.2rem; }
+.font-size-13 {	font-size:1.3rem; }
+.font-size-14 {	font-size:1.4rem; }
+.font-size-15 {	font-size:1.5rem; }
+.font-size-16 {	font-size:1.6rem; }
+.font-size-17 {	font-size:1.7rem; }
+.font-size-18 {	font-size:1.8rem; }
+.font-size-19 {	font-size:1.9rem; }
+.font-size-20 {	font-size:2.0rem; }
+.font-size-21 {	font-size:2.1rem; }
+.font-size-22 {	font-size:2.2rem; }
+.font-size-23 {	font-size:2.3rem; }
+.font-size-24 {	font-size:2.4rem; }
+.font-size-25 {	font-size:2.5rem; }
+.font-size-26 {	font-size:2.6rem; }
+.font-size-27 {	font-size:2.7rem; }
+.font-size-28 {	font-size:2.8rem; }
+.font-size-29 {	font-size:2.9rem; }
+
+/* ±Û¾¾±½±â */
+.font-weight-300 { font-weight:300; }
+.font-weight-400 { font-weight:400; }
+.font-weight-500 { font-weight:500; }
+.font-weight-600 { font-weight:600; }
+.font-weight-700 { font-weight:700; }
+
+.font-weight-800 { font-weight:800; }
+
+/* Å×µÎ¸® */
+.border-radius-0 { border-radius:0; }
+.border-radius-50 { border-radius:50px; }
+.border-0 { border:0; }
+
+/* ±ÛÀÚ»ö */
+.font-color-white { color:#fff; }
+.font-color-base { color:#222; }
+.font-color-gray { color:#979797; }
+.font-color-656565 { color:#656565 }
+.font-color-666666 { color:#666 }
+.font-color-999999 { color:#999 }
+
+
+/* ´Þ·Â */
+img { border:0; }
+html {	height:100%; }
+* { margin:0; padding:0; }
+li { list-style: none; }
+
+.e-calendar-color-r {
+	color:#d3433f;
+}
+.e-calendar-color-b {
+	color:#4177d6;
+}
+.e-calendar-grid td {
+	vertical-align : top;
+	height:60px;
+	width:14.28571%;
+}
+.e-calendar-top-bg{
+	background-color:#3f4443;
+	color:#fff;
+	font-weight:700;
+}
+.e-calendar-week-bg {
+	/*background-color:#f5f5f5;*/
+}
+.e-calendar-rvt-w{
+	position:relative;
+	height:120px;	
+}
+.e-calendar-rvt-s{
+	position:absolute;
+	right:0;
+	bottom:0;
+}
+.e-calendar-rvt-btn1{
+	background-color:#d3433f;
+	color:#fff;
+	font-size:12px;
+	width:55px;
+	height:25px;
+	border:0;
+}
+.e-calendar-rvt-btn2{
+	background-color:#3165c1;
+	color:#fff;
+	font-size:12px;
+	width:55px;
+	height:25px;
+	border:0;
+}
+.e-calendar-rvt-btn3{
+	background-color:#fff;
+	color:#666;
+	border:1px solid #666;
+	font-size:12px;
+	width:55px;
+	height:25px;
+}
+.e-calendar-gray {
+	color:#9d9d9d;
+}
+@media all and  (max-width:800px){
+	.e-calendar-mobile-w {
+		height:400px;
+	}
+	.e-calendar-mobile {height:310px; overflow:auto; }
+	.e-calendar-rvt-btn1{
+		background-color:#d3433f;
+		color:#fff;
+		font-size:9px;
+		width:40px;
+		height:25px;
+		border:0;
+	}
+	.e-calendar-rvt-btn2{
+		background-color:#3165c1;
+		color:#fff;
+		font-size:9px;
+		width:40px;
+		height:25px;
+		border:0;
+	}
+}
+
+
+/* board */
+.e-b-top {
+	border-top:1px solid #bcbcbc;
+}
+.e-b-bottom {
+	border-bottom:2px solid #bcbcbc;
+}
+ol,
+ul,
+dl {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.notice-table-thead-o {
+	border-top:2px solid #2b90d9;
+	border-bottom:1px solid #d0d0d0;
+	background-color:#f8f8f8;
+	color:#787878;
+	font-weight:500;
+}

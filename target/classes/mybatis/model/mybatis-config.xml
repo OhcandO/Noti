@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<!-- Alias 설정 -->
+	<typeAliases>
+		<typeAlias alias="board" type="com.ncs.noti.board.VO.BoardVO" />
+		<typeAlias alias="infoboard" type="com.ncs.noti.board.VO.infoBoardVO" />
+		<typeAlias alias="member" type="com.ncs.noti.member.VO.MemberVO" />
+		<typeAlias alias="catloc" type="com.ncs.noti.member.VO.LocVO" />
+		<typeAlias alias="login" type="com.ncs.noti.member.VO.LoginVO" />
+		<typeAlias type="com.ncs.noti.member.VO.MileageVO" alias="mileage"/>
+		<typeAlias alias="likeBoard" type="com.ncs.noti.board.VO.likeUserVO" />
+		<typeAlias alias="Criteria" type="com.ncs.noti.board.VO.Criteria" />			
+		<typeAlias alias="comment" type="com.ncs.noti.comment.VO.CommentVO"/>
+		<typeAlias type="com.ncs.noti.total.VO.SearchTextVO" alias="textt"/>
+		<typeAlias alias="mailing" type="com.ncs.noti.common.mailing.MailingVO"/>
+		<typeAlias alias="likeBoardInfo" type="com.ncs.noti.board.VO.likeInfoVO" />
+	</typeAliases>
+
+
+</configuration>
+

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SearchTextDAO">
+
+	<!-- 검색어 DB 저장 -->
+	<insert id="inserttext" parameterType="textt">
+      <![CDATA[
+      insert into search_text(text_no, text, text_date, text_user_id) values(text_search_no_seq.nextval,#{text},sysdate, #{text_user_id})
+      ]]>
+   </insert>
+   
+   <!-- 일간 검색어 순위 -->
+	<select id="dayList" resultType="textt">
+		<![CDATA[
+		select text, count(*) count from search_text where to_char(text_date,'yyyymmdd') = to_char(sysdate,'yyyymmdd') group by text order by count(*) desc
+		]]>
+	</select>
+	
+	<!-- 주간 검색어 순위 -->
+	<select id="weekList" resultType="textt">
+		<![CDATA[
+		select text, count(*) count from search_text where to_char(sysdate-7,'yyyymmdd')<= to_char(text_date-7,'yyyymmdd') OR
+		to_char(text_date,'yyyymmdd') <= to_char(sysdate,'yyyymmdd') group by text order by count(*) desc
+		]]>
+	</select>
+	
+	<!-- 월간 검색어 순위 -->
+	<select id="monthList" resultType="textt">
+		<![CDATA[
+		select text, count(*) count 
+		from search_text 
+		where to_char(sysdate-30,'yyyymmdd')<= to_char(text_date-30,'yyyymmdd') 
+		OR to_char(text_date,'yyyymmdd') <= to_char(sysdate,'yyyymmdd') 
+		group by text 
+		order by count(*) desc
+		]]>
+	</select>
+
+</mapper>

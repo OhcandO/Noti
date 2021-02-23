@@ -1,0 +1,80 @@
+@font-face {
+  font-family: 'GmarketSansLight';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansLight.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'TTTogether';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/TTTogetherA.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.main-font-color{
+  color:#454b57;
+}
+.main-font-color2{
+  color:#9fa6b2;
+}
+
+.btn-bg{
+  background-color: #9ec9d0;
+}
+.font-sty-1{
+  font-family: 'TTTogether';
+}
+
+.font-sty-2{
+  font-family: 'GmarketSansLight';
+}
+.log_bg{
+background: url("../images/login_bg.png")
+	no-repeat;
+	background-size: cover;
+  height:550px;
+}
+
+.log_bg1{
+background: url("../images/login_bg.png")
+	no-repeat;
+	background-size: cover;
+  height:778px;
+}
+
+.login-w{
+  padding-top: 15%;
+}
+
+.login-x{
+  padding-top: 7%;
+}
+
+.login-w1{
+  padding-top: 7%;
+  padding-bottom: 7%;
+}
+
+.login-x1{
+  padding-top: 1%;
+}
+
+
+.plh-f::placeholder {
+  font-size: 12px !important;
+}
+
+.log-bgc{
+  background-color: #f5f5f5;
+  height: 100vh;
+}
+
+.log-bgc1{
+  background-color: #f5f5f5;
+  height: 89vh;
+}
+
+.log-bgc-w{
+  background-color: #fff;
+}

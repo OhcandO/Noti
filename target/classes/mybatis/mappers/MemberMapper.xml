@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="user">
+
+	<!-- memberVO 변수명을 마이바티스 설정파일에서 에서 typeAlias 에서 지정한 하였음 -->
+	<select id="idCheck" parameterType="member" resultType="member">
+		select * from user_info where user_id=#{user_id}
+		<if test="user_pass !=null">
+			AND user_pass=#{user_pass}
+		</if>
+	</select>
+
+	<!-- 로그인 확인을 위한 간단한 쿼리 -->
+	<select id="checkIn" parameterType="login" resultType="member">
+		select * from user_info where user_id=#{login_id} and user_pass=#{login_pass} 
+	</select>
+
+	<!-- 회원가입 sql -->
+	<insert id="userInsert" parameterType="member"> <!-- insert,delete,update는 리턴타입 필요없음 -->
+	INSERT INTO user_info(user_id, user_pass, user_birth, user_gender, user_email, loc_dong_no, user_name) VALUES(#{user_id}, #{user_pass},#{user_birth},#{user_gender}, #{user_email}, #{loc_dong_no}, #{user_name})
+	</insert>
+	<!-- userId 같은 이름들은 parameterClass의 클래스 필드 명 -->
+
+	<select id="catselect" resultType="catloc">
+		select loc_dong_no,loc_dong_name from cat_loc_dong
+	</select>
+	<!-- 회원정보수정 -->
+	<update id="userUpdate" parameterType="member">
+		update user_info set 
+		user_pass=#{user_pass},
+		user_name=#{user_name},
+		user_email=#{user_email},
+		user_gender=#{user_gender},
+		user_birth=#{user_birth},
+		loc_dong_no=#{loc_dong_no}
+		where user_id=#{user_id}
+	</update>
+	<!-- 유저 마일리지 -->
+	<select resultType="integer" id="mileageSelect">
+	select nvl2(sum(mileage_amount),sum(mileage_amount),0) 
+	from user_mileage 
+	where user_id=#{user_id} 
+	</select>
+	
+</mapper>

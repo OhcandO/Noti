@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BoardDAO">
+
+
+	<insert id="insertBoard" parameterType="board">
+		INSERT INTO user_board 
+		( user_board_no, user_board_title, user_board_content, user_board_start, user_board_count, user_board_like, user_id
+			<!-- <if test="b_fname != null">
+			,b_fname, b_fsize
+			</if> -->
+		)  VALUES( 
+		user_board_no_seq.nextval, #{user_board_title}, #{user_board_content}, sysdate, #{user_board_count}, #{user_board_like}, #{user_id}
+			<!-- <if test="b_fname != null">
+			,#{b_fname}, #{b_fsize}
+			</if>	 -->			
+		)
+	</insert>
+	<!-- 좋아요기능 -->
+	<insert id="likeBoard">
+		INSERT INTO like_user_list 
+		( like_user_list_no, user_id, user_board_no			
+		)  VALUES( 
+		like_user_list_no_seq.nextval, #{user_id}, #{user_board_no}			
+		)
+	</insert>
+
+	<delete id="likeBoardDel">
+		DELETE FROM like_user_list
+		WHERE user_board_no = #{user_board_no} and user_id = #{user_id}
+	</delete>
+	
+	<update id="likeBoardUp">
+			UPDATE user_board SET user_board_like = (
+				SELECT COUNT(*) FROM like_user_list 
+				WHERE user_board_no = #{user_board_no}
+				) 
+			WHERE user_board_no = #{user_board_no}
+	</update>
+	
+	<select id="likeBoardCount" resultType="int">
+		SELECT COUNT(like_user_list_no)
+		FROM like_user_list
+		WHERE user_board_no = #{user_board_no} and user_id = #{user_id}
+	</select>
+	<!-- 좋아요기능 -->
+	<select id="getBoardList" resultType="board" parameterType="criteria">
+		<![CDATA[
+		SELECT user_board_no, 
+         user_board_title,
+         user_id,
+         user_board_start,
+         user_board_count,
+         user_board_like
+         FROM (
+            SELECT user_board_no,
+                  user_board_title,
+                  user_id,
+                  user_board_start,
+                  user_board_count,
+                  user_board_like,
+                  row_number() over(order by user_board_no desc) as rnum
+            FROM user_board) ub
+      WHERE rnum between #{rowStart} and #{rowEnd}
+      ORDER BY user_board_start desc
+		]]>
+	</select>
+
+	<select id="likeUserList" parameterType="likeBoard" resultType="likeBoard">
+		<![CDATA[
+		SELECT like_user_list_no, 
+				user_board_title, 
+				user_id, 
+				user_board_start, 
+				user_board_count, 
+				user_board_like 
+		FROM (
+            SELECT a.like_user_list_no, 
+				b.user_board_title, 
+				b.user_id, 
+				b.user_board_start, 
+				b.user_board_count, 
+				b.user_board_like, row_number() over(order by 1 desc) as rnum
+			FROM like_user_list a, user_board b
+            WHERE a.user_board_no = b.user_board_no(+) and a.user_id = #{user_id })
+      WHERE rnum between 1 and 10
+      ORDER BY like_user_list_no desc
+		
+		]]>
+	</select>
+	
+	<select id="searchHeart" parameterType="map">
+		<![CDATA[
+		SELECT 1
+         FROM like_user_list
+         WHERE user_board_no = #{user_board_no} and user_id = #{user_id}
+		]]>
+	</select>
+	
+ <select id="getBoardListAll" resultType="board">
+		<![CDATA[
+		SELECT *
+		FROM user_board
+      	ORDER BY user_board_start desc
+		]]>
+ </select>
+	<update id="updateBoard"  parameterType="board">
+		<![CDATA[
+		UPDATE user_board SET
+		user_board_title = #{user_board_title},
+		user_board_content = #{user_board_content}
+		WHERE user_board_no = #{user_board_no}
+		]]>
+	</update>
+	
+	
+	<delete id="deleteBoard"  parameterType="board">
+		<![CDATA[
+		DELETE user_board
+		WHERE user_id = #{user_id}
+		]]>
+	</delete>
+	
+	<select id="getBoard"  parameterType="board" resultType="board">
+		<![CDATA[
+		SELECT *
+		FROM user_board
+		WHERE user_board_no = #{user_board_no}
+		]]>
+	</select>
+	
+	<select id="forUpdateBoard"  parameterType="board" resultType="board">
+		<![CDATA[
+		SELECT *
+		FROM user_board
+		WHERE user_board_no = #{user_board_no}
+		]]>
+	</select>
+	
+	<!-- info_board 리스트 검색한거 보기 -->
+   <select id="getBoardListText"  parameterType="String" resultType="board">
+      <![CDATA[
+      SELECT * FROM user_board where user_board_content like '%'||#{vo}||'%' ORDER BY user_board_start desc 
+      ]]>
+   </select>
+	
+	<update id="boardCount" parameterType="int">
+    	UPDATE user_board SET
+    	user_board_count = user_board_count+1
+    	WHERE user_board_no = #{user_board_no}
+    </update>
+    <!-- 시작 -->
+    <update id="boardLikeUp">
+    	UPDATE user_board SET
+    	user_board_like = (
+    						SELECT COUNT(*) FROM like_user_list
+    						WHERE user_board_no = #{user_board_no}
+    						)
+    	WHERE user_board_no = #{user_board_no}
+    </update>
+    
+    <delete id="boardLikeDel">
+    	DELETE FROM like_user_list
+    	WHERE user_board_no = #{user_board_no} and user_id = #{user_id}
+    </delete>
+    
+    <select id="boardLikeCount">
+    	SELECT COUNT(*) FROM like_user_list
+    	WHERE user_board_no = #{user_board_no} and user_id = #{user_id}
+    </select>
+    <!-- 끝 -->
+    <select id="getUserIdBoard" parameterType="board" resultType="board">
+		<![CDATA[
+		SELECT * FROM user_board 
+		WHERE user_id = #{user_id}
+		ORDER BY user_board_start desc
+		]]>
+	</select>
+	
+	<select id="listCount" resultType="int">
+	<![CDATA[
+		SELECT COUNT(user_board_no)
+		  FROM user_board
+		 WHERE user_board_no > 0
+	]]>
+	</select>
+
+</mapper>

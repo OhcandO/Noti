@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MailingDAO">
+
+	<!-- 주간 인기 검색어 -->
+	<select id="getPopularTextL" resultType="mailing">
+      <![CDATA[
+      	select * from (select text, count(*) count 
+		from search_text 
+		where sysdate-7 <= text_date 
+		OR text_date <= sysdate
+		group by text 
+		order by count(*) desc)
+		where ROWNUM<6
+      ]]>
+   </select>
+   
+   <!--  주간 인기/최고 조회 게시물 -->
+	<select id="getPopularContentL" resultType="mailing">
+		<![CDATA[
+			select * 
+    		from (select '정책' as source, info_board_title title, info_board_like as likes, info_board_count count 
+        		from info_board 
+        		where (sysdate-7<=info_board_start or info_board_start<=sysdate) 
+        		order by likes desc, info_board_count desc)
+    		where rownum<5
+			union all
+			select * 
+    		from (select '회원' as source, user_board_title title, user_board_like as likes, user_board_count
+        		from user_board 
+        		where (sysdate-7<=user_board_start or user_board_start<=sysdate) 
+        		order by likes desc, user_board_count desc)
+    		where rownum<5
+		]]>
+	</select>
+	
+	<!--특정 회원의 최근 일주일 검색어 중 빈도 제일 높은 3건에 대하여, 
+		최근 일주일  정책 게시글 내용을 검색했을 때,
+		추천수와 조회수가 가장 많은 결과를 내보냄-->
+	<select id="getUserSearchResultL" parameterType="String" resultType="mailing">
+		<![CDATA[
+			select search text, substr(info_board_title,1,16)||'...' as title, info_board_count count, info_board_like likes, cat_small_group_name source 
+			from 
+			    (select search, cnt from 
+			        (select text as search, count(*) as CNT from search_text 
+			        where text_user_id = #{user_id} 
+			        and( sysdate-7 <= text_date OR text_date <= sysdate) 
+			        group by text order by count(*) desc) 
+			     where rownum<4) a,
+			    (select info_board_title, info_board_content, info_board_count, info_board_like, cat_small_group_name from 
+			        (SELECT INFO_BOARD_NO, INFO_BOARD_TITLE, info_board_content, INFO_BOARD_COUNT, INFO_BOARD_LIKE, CAT_SMALL_GROUP_NAME, 
+			        info_board_start FROM info_board info, cat_small_group cat 
+			        WHERE INFO.CAT_SMALL_GROUP_NO = CAT.CAT_SMALL_GROUP_NO 
+			            and (sysdate-7 <= info_board_start or info_board_start <= sysdate)
+			        order by info_board_like desc, info_board_count desc)
+			    where ROWNUM<50) b
+			where b.info_board_content like '%'||a.search||'%' 
+			order by cnt desc
+		]]>
+	</select>
+	
+</mapper>

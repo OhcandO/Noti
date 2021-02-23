@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="infoBoardDAO">
+
+	<!-- 크롤링 디비 입력 -->
+    
+	<insert id="insertInfoBoard" parameterType="infoboard">
+      <![CDATA[
+      insert into info_board values(info_board_no_seq.nextval, #{info_board_title},#{info_board_start},#{cat_small_group_no},0,0,#{info_board_content},#{info_board_url})
+      ]]>
+   </insert>
+   	<!-- SYSDATE 비교 
+   	
+   	크롤링 디비 입력 
+	<insert id="insertInfoBoard" parameterType="infoboard">
+      <![CDATA[
+      insert into info_board values(info_board_no_seq.nextval, (case when length(#{info_board_title}) >=45 then substr(#{info_board_title},0,44)||'...' else #{info_board_title}end), #{info_board_start},50,0,0, (case when length(#{info_board_content}) >= 1950 then substr(#{info_board_content},0,1900)||'...' else #{info_board_content} end) ,#{info_board_url}) where #{info_board_start} = sysdate 
+      ]]>
+   </insert>
+   
+   -->
+   
+     <select id="getinfoBoardList" resultType="infoboard" parameterType="criteria">
+		<![CDATA[
+		SELECT info_board_no,
+				info_board_title,
+				info_board_start,
+				info_board_like,
+				info_board_count,
+				CAT_SMALL_GROUP_NAME 
+		FROM (
+            SELECT info_board_no,
+                  info_board_title,
+                  info_board_start,
+                  info_board_like,
+                  info_board_count, CAT_SMALL_GROUP_NAME ,
+                  row_number() over(order by info_board_no desc) as rnum
+            FROM info_board info, cat_small_group cat  where INFO.CAT_SMALL_GROUP_NO = CAT.CAT_SMALL_GROUP_NO) ib
+      WHERE rnum between #{rowStart} and #{rowEnd}
+      ORDER BY info_board_start desc
+		]]>
+	</select>
+	
+   <!-- info_board 리스트 불러오기 -->
+   <select id="getinfoBoardListAll" resultType="infoboard">
+		<![CDATA[
+		SELECT INFO_BOARD_NO, INFO_BOARD_TITLE, INFO_BOARD_START, CAT_SMALL_GROUP_NAME, INFO_BOARD_COUNT, INFO_BOARD_LIKE, INFO_BOARD_CONTENT, INFO_BOARD_URL from info_board info, cat_small_group cat where INFO.CAT_SMALL_GROUP_NO = CAT.CAT_SMALL_GROUP_NO ORDER BY info_board_start desc
+		]]>
+	</select>
+	
+	<select id="listCount" resultType="int">
+   <![CDATA[
+      SELECT COUNT(info_board_no)
+        FROM info_board
+       WHERE info_board_no > 0
+   ]]>
+   </select>
+	
+	<!-- info_board 리스트 상세보기 -->
+	<select id="getinfoBoard"  parameterType="infoboard" resultType="infoboard">
+		<![CDATA[
+		SELECT INFO_BOARD_NO, INFO_BOARD_TITLE, INFO_BOARD_START, CAT_SMALL_GROUP_NAME, INFO_BOARD_COUNT, INFO_BOARD_LIKE, INFO_BOARD_CONTENT, INFO_BOARD_URL from info_board info, cat_small_group cat where INFO.CAT_SMALL_GROUP_NO = CAT.CAT_SMALL_GROUP_NO and info_board_no = #{info_board_no}
+		]]>
+	</select>
+	
+	<!-- info_board 리스트 검색한거 보기 -->
+	<select id="getinfoBoardListText"  parameterType="String" resultType="infoboard">
+		<![CDATA[
+		SELECT INFO_BOARD_NO, INFO_BOARD_TITLE, INFO_BOARD_START, CAT_SMALL_GROUP_NAME, INFO_BOARD_COUNT, INFO_BOARD_LIKE, INFO_BOARD_CONTENT, INFO_BOARD_URL 
+		from info_board info, cat_small_group cat where INFO.CAT_SMALL_GROUP_NO = CAT.CAT_SMALL_GROUP_NO and info_board_content like  '%'||#{vo}||'%' ORDER BY info_board_start desc
+		]]>
+	</select>
+
+	<update parameterType="int" id="infoboardCount">
+			UPDATE info_board SET info_board_count = info_board_count+1 
+			WHERE info_board_no = #{user_board_no} 
+	</update>
+	<!-- 좋아요기능 -->
+	<insert id="likeBoardInfo">
+		INSERT INTO like_info_list 
+		( like_info_list_no, user_id, info_board_no			
+		)  VALUES( 
+		like_user_list_no_seq.nextval, #{user_id}, #{info_board_no}			
+		)
+	</insert>
+
+	<delete id="likeBoardDelInfo">
+		DELETE FROM like_info_list
+		WHERE info_board_no = #{info_board_no} and user_id = #{user_id}
+	</delete>
+	
+	<update id="likeBoardUpInfo">
+			UPDATE info_board SET info_board_like = (
+				SELECT COUNT(*) FROM like_info_list 
+				WHERE info_board_no = #{info_board_no}
+				) 
+			WHERE info_board_no = #{info_board_no}
+	</update>
+	
+	<select id="likeBoardCountInfo" resultType="int">
+		SELECT COUNT(like_info_list_no)
+		FROM like_info_list
+		WHERE info_board_no = #{info_board_no} and user_id = #{user_id}
+	</select>
+	<select id="likeInfoList" parameterType="likeBoardInfo" resultType="likeBoardInfo">
+		<![CDATA[
+		SELECT like_info_list_no, 
+				info_board_title, 
+				user_id, 
+				info_board_start, 
+				info_board_count, 
+				info_board_like 
+		FROM (
+            SELECT a.like_info_list_no, 
+				b.info_board_title, 
+				b.user_id, 
+				b.info_board_start, 
+				b.info_board_count, 
+				b.info_board_like, row_number() over(order by 1 desc) as rnum
+			FROM like_info_list a, info_board b
+            WHERE a.info_board_no = b.info_board_no(+) and a.user_id = #{user_id })
+      WHERE rnum between 1 and 10
+      ORDER BY like_info_list_no desc
+		
+		]]>
+	</select>
+	<!-- 좋아요기능 -->
+</mapper>

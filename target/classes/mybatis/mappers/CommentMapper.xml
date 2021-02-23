@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="CommentDAO">
+
+<!-- 그룹아이디 받는  -->
+	<select id="getGroupId" resultType="Integer">
+		<![CDATA[
+		SELECT comment_group_id_seq.nextval from dual
+		]]>
+	</select>
+	
+<!-- [첫] 댓글 DB에 넣기  -->
+	<insert id="insertComment" parameterType="comment">
+		<![CDATA[
+		INSERT into info_comment 
+		(info_comment_no, user_id, info_board_no, info_comment_date, info_comment_like, info_comment_seq, info_comment_groupid, info_comment_content)
+		values
+		(comment_no_seq.nextval, #{user_id}, #{board_no}, sysdate, 0, #{comment_seq}, #{comment_groupid},#{comment_content})
+		]]>
+	</insert>
+	
+<!-- 특정 게시글 번호로 댓글 리스트 불러오기 -->
+	<select id="getCommentList" parameterType="Integer" resultType="comment">
+		<![CDATA[
+		SELECT info_comment_no as comment_no, info_comment_content as comment_content, user_id, 
+		info_comment_date as comment_date, info_comment_like as comment_like, info_comment_groupid as comment_groupid, 
+		info_comment_seq as comment_seq 
+		FROM info_comment where info_board_no = #{board_no} order by comment_seq desc
+		]]>
+	</select>
+	
+<!-- 댓글 번호로 댓글 지우기 -->
+	<delete id="deleteComment" parameterType="Integer">
+		<![CDATA[
+		DELETE from info_comment where info_comment_no = #{comment_no}
+		]]>
+	</delete>
+	
+<!-- 댓글 객체를 받아 해당 댓글 수정하기 -->
+	
+	<update id="updateComment" parameterType="comment">
+	<![CDATA[
+		UPDATE info_comment set info_comment_content = #{comment_content}, info_comment_date = sysdate
+		where info_comment_no = #{comment_no} 
+	]]>
+	</update>
+	
+<!-- 특정 게시글의 총 댓글 갯수를 구하는 쿼리 -->	
+	<select id="getCountCommnetByBNO" parameterType="Integer" resultType="Integer">
+		<![CDATA[
+		select count(*) from info_comment where info_board_no=#{comment_no}
+		]]>
+	</select>
+
+<!-- 특정 댓글 번호를 입력해 댓글 객체를 반환하는 쿼리  -->
+	<select id="selectById" parameterType="Integer" resultType="comment">
+	<![CDATA[
+		SELECT info_comment_no as comment_no, info_comment_content as comment_content, user_id, 
+		info_comment_date as comment_date, info_comment_like as comment_like, info_comment_groupid as comment_groupid, 
+		info_comment_seq as comment_seq from info_comment where info_comment_no = #{comment_no}
+	]]>
+	</select>	
+	
+<!-- 댓글 달 때 댓글의 시퀀스 번호 마지막 값 읽어들이기 -->
+	<select id="selectLastSequenceNumber" parameterType="Map" resultType="String">
+	<![CDATA[
+		SELECT min(info_comment_seq) as minseq FROM info_comment
+		WHERE info_comment_seq < #{big}  AND info_comment_seq >= #{small}
+	]]>
+	</select>	
+
+</mapper>

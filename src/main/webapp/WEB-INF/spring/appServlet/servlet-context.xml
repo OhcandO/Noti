@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans
+	xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:task="http://www.springframework.org/schema/task" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+		<!-- xmlns:task and [http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd]라인 추가-->
+	<!-- NOTI -->
+	<!-- DispatcherServlet Context: defines this servlet's request-processing 
+		infrastructure -->
+
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<annotation-driven />
+
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
+		up static resources in the ${webappRoot}/resources directory -->
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
+		in the /WEB-INF/views directory -->
+	<beans:bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+
+	<!-- 프로젝트 어노테이션으로 빈 생성 -->
+	<context:component-scan	base-package="com.ncs.noti" />
+	<context:component-scan base-package="com.ncs.noti.scheduled"/>
+    <task:annotation-driven />
+	
+	<!-- 인터셉터 -->
+	<!-- 인터셉터 객체생성 -->
+
+	<beans:bean id="LoginInterceptor"
+		class="com.ncs.noti.common.interceptor.LoginInterceptor"></beans:bean>
+	<mvc:interceptors>
+		
+		<mvc:interceptor>
+			<!-- 회원게시판 '새 글 작성'누르자마자 로그인 체크 -->
+			<mvc:mapping path="/insertBoard.do" />
+			
+			<!-- 댓글 관련들 누르자마자 로그인 체크 -->
+			<mvc:mapping path="comments/*.do"/>
+			<mvc:exclude-mapping path="comments/getCommentList.do"/>
+			
+			<beans:ref bean="LoginInterceptor"/>
+		</mvc:interceptor>
+		
+		
+	</mvc:interceptors>
+
+	<!-- 파일업로드 하려면 MultipartResolver를 등록해야 함 -->
+	<beans:bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+
+	<!-- 이메일링 -->
+	<beans:bean id="mailSender"
+		class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<beans:property name="host" value="smtp.gmail.com" />
+		<beans:property name="port" value="587" /><!-- 465 or 25 -->
+		<beans:property name="username" value="noti.the.notice@gmail.com" />
+		<beans:property name="password" value="notice123!@#" />
+		<beans:property name="defaultEncoding" value="utf-8" />
+		<beans:property name="javaMailProperties">
+			<beans:props>
+				<beans:prop key="mail.transport.protocol">smtp</beans:prop>
+				<beans:prop key="mail.smtp.auth">true</beans:prop>
+				<beans:prop key="mail.smtp.starttls.enable">true</beans:prop>
+				<beans:prop key="mail.debug">true</beans:prop>
+			</beans:props>
+		</beans:property>
+	</beans:bean>
+
+</beans:beans>
