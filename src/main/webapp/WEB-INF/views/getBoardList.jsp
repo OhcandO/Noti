@@ -81,7 +81,7 @@
                <!-- 프라퍼티이름 변경 -->
                <tr>
                   <td align="center">${board.user_board_no}</td>
-                  <td align="center"><a
+                  <td align="center" class="text-left"><a
                      href="getBoard.do?user_board_no=${board.user_board_no }">
                         ${board.user_board_title }</a></td>
                   <td align="center"><a

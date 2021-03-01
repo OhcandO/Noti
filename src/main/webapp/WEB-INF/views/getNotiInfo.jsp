@@ -228,8 +228,11 @@
 		    		</div>
 		    	</div>	    	
 		    </div>
+		    <div class="row mt-3">
+		    	
+		     </div> 
 		    
-		    <div class="row">	
+		    <!-- <div class="row">	
 		    	<div class="col-lg-12 text-center mt-6 font-weight-600 mb-4">
 		        	<div class="font-size-10 color-noti">
 		        		Creators
@@ -239,7 +242,7 @@
 		        	</div>		    		
 		    	</div>
 		    	
-		     </div>   
+		     </div>    -->
 		</div>
 
 

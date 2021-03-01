@@ -119,7 +119,7 @@ $('.carousel').carousel()
                </div>
             </div>
             <div class="col-lg-3 my-2">
-               <div class="media border p-3 pointer card-1">
+               <div class="media border p-3 pointer card-1" onclick="location.href='getinfoBoardList.do';">
                   <i class="fab fa-buromobelexperte font-size-29 main-font-color2 pt-4 pr-3"></i>
                   <div class="media-body">
                      <div class="font-size-09 font-weight-600">
@@ -135,7 +135,7 @@ $('.carousel').carousel()
                </div>
             </div>
             <div class="col-lg-3 my-2">
-               <div class="media border p-3 pointer card-1">
+               <div class="media border p-3 pointer card-1" onclick="location.href='getBoardList.do';">
                   <i class="fas fa-democrat font-size-29 main-font-color2 pt-4 pr-3"></i>
                   <div class="media-body">
                      <div class="font-size-09 font-weight-600">
@@ -151,7 +151,7 @@ $('.carousel').carousel()
                </div>
             </div>
             <div class="col-lg-3 my-2">
-               <div class="media border p-3 pointer card-1">
+               <div class="media border p-3 pointer card-1" onclick="location.href='getTopSearch.do';">
                   <i class="fab fa-app-store-ios font-size-29 main-font-color2 pt-4 pr-3"></i>
                   <div class="media-body">
                      <div class="font-size-09 font-weight-600">

@@ -300,7 +300,7 @@ public class crawling {
                   vo.setInfo_board_start(tF.parse(date_al.get(j)));
                   vo.setInfo_board_title(title_al.get(j));
                   vo.setInfo_board_url(url_al.get(j));
-                  vo.setCat_small_group_no(5);
+                  vo.setCat_small_group_no(3);
                   System.out.println("오늘입니다. 파싱 ㄱㄱ");
                   System.out.println("today : " + tF.format(today));
                   System.out.println("tF.parse(date_al.get(j) : " + (date_al.get(j)));

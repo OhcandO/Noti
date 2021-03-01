@@ -85,7 +85,7 @@ public class infoBoardDAOImpl implements infoBoardDAO{
 		
 		public List<likeInfoVO> likeInfoList(Criteria cri) throws Exception {
 			System.out.println("===> Mybatis likeInfoList() 호출");
-			return mybatis.selectList("BoardDAO.likeInfoList", cri);
+			return mybatis.selectList("infoBoardDAO.likeInfoList", cri);
 		}
 	//좋아요기능끝
 

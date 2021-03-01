@@ -82,7 +82,7 @@
 					<tr>
 						<td align="center">${likeBoardInfo.like_info_list_no}</td>
 						<td align="center">${likeBoardInfo.info_board_title}</td>
-						<td align="center">${likeBoardInfo.user_id}</td>
+						<td align="center">${likeBoardInfo.cat_small_group_name}</td>
 						<td align="center">${likeBoardInfo.info_board_start}</td>
 						<td align="center">${likeBoardInfo.info_board_count}</td>
 						<td align="center">${likeBoardInfo.info_board_like}</td>

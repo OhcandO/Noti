@@ -3,7 +3,7 @@ $(document).ready(function(){
     getCommentList(board_no);   
     
     $("#Btn_insertComment").click(function(){ //댓글 등록 버튼 클릭시 
-    	var insertReally = confirm('댓글 입력하시겠습니꺼~~억');
+    	var insertReally = confirm('댓글을 입력하시겠습니까');
     	if(insertReally){
     		alert('댓글답니다');
     		var insertData = $('[name=insertCommentForm]').serialize(); //commentInsertForm의 내용을 가져옴
@@ -98,7 +98,7 @@ function updateCommentProc(comment_no){
  
 //댓글 삭제 
 function deleteComment(comment_no){
-	var deleteReally = confirm('삭제하시겠습니꺼~~억');
+	var deleteReally = confirm('댓글을 삭제하시겠습니까');
 	if(deleteReally){
 		alert('삭제합니다');
 		$.ajax({

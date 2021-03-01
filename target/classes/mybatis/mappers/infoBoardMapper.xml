@@ -106,22 +106,22 @@
 	<select id="likeInfoList" parameterType="likeBoardInfo" resultType="likeBoardInfo">
 		<![CDATA[
 		SELECT like_info_list_no, 
-				info_board_title, 
-				user_id, 
-				info_board_start, 
-				info_board_count, 
-				info_board_like 
-		FROM (
+            x.info_board_title, 
+            y.cat_small_group_name, 
+            x.info_board_start, 
+            x.info_board_count, 
+            x.info_board_like 
+      FROM (
             SELECT a.like_info_list_no, 
-				b.info_board_title, 
-				b.user_id, 
-				b.info_board_start, 
-				b.info_board_count, 
-				b.info_board_like, row_number() over(order by 1 desc) as rnum
-			FROM like_info_list a, info_board b
-            WHERE a.info_board_no = b.info_board_no(+) and a.user_id = #{user_id })
-      WHERE rnum between 1 and 10
-      ORDER BY like_info_list_no desc
+            b.info_board_title, 
+            b.cat_small_group_no, 
+            b.info_board_start, 
+            b.info_board_count, 
+            b.info_board_like, row_number() over(order by 1 desc) as rnum
+         FROM like_info_list a, info_board b
+            WHERE a.info_board_no = b.info_board_no(+) and a.user_id = #{user_id}) x, cat_small_group y
+      WHERE x.cat_small_group_no = y.cat_small_group_no and rnum between 1 and 10
+      ORDER BY like_info_list_no desc 
 		
 		]]>
 	</select>

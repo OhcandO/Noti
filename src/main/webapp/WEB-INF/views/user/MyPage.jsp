@@ -111,9 +111,9 @@
                         <div class="text-center mt-4">
                            <button type="submit" name="confirm" id="confirm" class="btn btn-secondary border-radius-0 w-50 mt-3 btn-bg font-weight-600 font-sty-1 border-0 shadow-sm">회원정보수정</button>
                           <button type="button" name="likeboard" id="likeboard" class="btn btn-secondary border-radius-0 w-50 mt-3 btn-bg font-weight-600 font-sty-1 border-0 shadow-sm"
-                            onclick="location.href='http://localhost:8888/noti/likeUserList.do'">관심정책게시물</button>
+                            onclick="location.href='http://localhost:8888/noti/likeInfoList.do'">관심정책게시물</button>
                             <button type="button" name="likeboard" id="likeboard" class="btn btn-secondary border-radius-0 w-50 mt-3 btn-bg font-weight-600 font-sty-1 border-0 shadow-sm"
-                            onclick="location.href='http://localhost:8888/noti/likeBoardInfoList.do'">관심회원게시물</button>
+                            onclick="location.href='http://localhost:8888/noti/likeUserList.do'">관심회원게시물</button>
                         </div>
                      </div>                     
                   </div>

@@ -28,9 +28,17 @@ public class MemberController {
 	@RequestMapping("/user/userLogin.do")
 	public void url(HttpServletRequest request, HttpSession session) {
 //		로그인 넘어오기 직전의 페이지 주소를 세션에 저장함
-		String prev = request.getHeader("referer");
-		session.setAttribute("prevPage", prev);
-		System.out.println("요청");
+		
+		String prev = (String)session.getAttribute("prevPage");
+		
+		// 이전 페이지 저장은 로그인 요청할 때만.. 비어있다면 첫 로그인 진입이니 이전페이지 주소를 저장하고
+		// 뭔가 있다면 비번 틀려서 다시 로그인 페이지 들어온 것이니 이전 페이지 주소를 다시 할당하지 않음
+		if(session.getAttribute("prevPage")==null) {
+			
+			prev = request.getHeader("referer");
+			session.setAttribute("prevPage", prev);
+		}
+		System.out.println("&^%$$&^%$^%&>>"+prev+" 에서 요청이 들어옴");
 	}
 	// 3. 매번 이런식으로 매핑만 하는 경우라면
 //	@RequestMapping(value = "{url}.do")
@@ -48,8 +56,25 @@ public class MemberController {
 	private MailingService mailingService;
 	
 	/*** 회원가입 */
-	@RequestMapping("/user//userInsert.do")
-	public ModelAndView userInsert(MemberVO memberVo) {
+//	@RequestMapping("/user/userInsert.do")
+//	public ModelAndView userInsert(MemberVO memberVo) {
+//		int result = memberService.userInsert(memberVo);
+//		
+//		String message = "가입되지 않았습니다";
+//		if (result > 0) {
+//			message = memberVo.getUser_name() + "님, 가입을 축하드립니다.";
+//			//  회원 가입 성공시 이메일 발송
+//			mailingService.welcomeMail(memberVo);
+//		}
+//		ModelAndView mv = new ModelAndView();
+//		mv.setViewName("index");
+//		mv.addObject("message", message);
+//		mv.addObject("result", result);
+//		return mv;
+//	}
+	
+	@RequestMapping("/user/userInsert.do")
+	public String userInsert(MemberVO memberVo) {
 		int result = memberService.userInsert(memberVo);
 		
 		String message = "가입되지 않았습니다";
@@ -59,10 +84,10 @@ public class MemberController {
 			mailingService.welcomeMail(memberVo);
 		}
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("user/userJoin_ok");
+		mv.setViewName("index");
 		mv.addObject("message", message);
 		mv.addObject("result", result);
-		return mv;
+		return "redirect:/";
 	}
 
 	/** 로그인 */
@@ -89,7 +114,6 @@ public class MemberController {
 		if (session.getAttribute("login") != null) {
 			session.removeAttribute("login");
 			session.removeAttribute("loginTime");
-//			session.removeAttribute("user_name");
 		}
 
 		if (vo != null) {
@@ -97,15 +121,11 @@ public class MemberController {
 			Date date = new Date();
 			session.setAttribute("login", vo);
 			session.setAttribute("loginTime", date);
-//			session.setAttribute("user_name", vo.getUser_name());
 			
-//			path = (String)session.getAttribute("prevPage");
-			
-//			return "user/login_ok";
 			return path;
 
 		} else {
-			return "redirect:/user/userLogin";
+			return "redirect:/user/userLogin.do";
 		}
 	}
 

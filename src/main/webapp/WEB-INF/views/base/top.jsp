@@ -51,7 +51,7 @@ $('#logout').click(function(){
 <div class="container py-3">
 		<div class="row">
 			<div class="col-lg-4 font-weight-600 font-size-29 main-font-color pointer" onclick="location.href='http://localhost:8888/noti/'">
-				Noti<span class="" style="font-size:1px">rannosaurus</span>
+				Noti
 			</div>
 			<div class="col-lg-4 pt-4">
 				<input type="text" id="search" class="form-control w-100 serch_bar_sty" placeholder="검색어를 입력해 주세요.">

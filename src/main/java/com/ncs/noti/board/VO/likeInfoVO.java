@@ -3,7 +3,7 @@ package com.ncs.noti.board.VO;
 public class likeInfoVO {
 	private int like_info_list_no;
 	private int info_board_no;
-	
+	private String cat_small_group_name;
 	private String info_board_title;
 	private String user_id;
 	private String info_board_start;
@@ -50,6 +50,12 @@ public class likeInfoVO {
 	}
 	public void setInfo_board_like(int info_board_like) {
 		this.info_board_like = info_board_like;
+	}
+	public String getCat_small_group_name() {
+		return cat_small_group_name;
+	}
+	public void setCat_small_group_name(String cat_small_group_name) {
+		this.cat_small_group_name = cat_small_group_name;
 	}
 	
 
